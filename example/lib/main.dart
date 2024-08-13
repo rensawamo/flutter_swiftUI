@@ -73,7 +73,7 @@ class _HomeScreenState extends State<HomeScreen> {
 /// Flutter側で実装されたAPIをNative側で呼び出す
 /// Flutter側で具象クラスを実装する必要がある
 /// [MessagesImpl.swift] で呼び出された際に、[flutterApi] が呼び出される
-class IsFlutterImpl extends IsFlutter {
+class IsFlutterImpl implements IsFlutter {
   @override
   Future<Message> flutterApi()  {
     final message = Message();
