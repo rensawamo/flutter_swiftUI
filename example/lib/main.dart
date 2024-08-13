@@ -1,63 +1,83 @@
 import 'package:flutter/material.dart';
-import 'dart:async';
-
-import 'package:flutter/services.dart';
-import 'package:nativesample/nativesample.dart';
+import 'package:nativesample/src/generated/messages.g.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
-class MyApp extends StatefulWidget {
-  const MyApp({super.key});
-
+class MyApp extends StatelessWidget {
   @override
-  State<MyApp> createState() => _MyAppState();
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: HomeScreen(),
+    );
+  }
 }
 
-class _MyAppState extends State<MyApp> {
-  String _platformVersion = 'Unknown';
-  final _nativesamplePlugin = Nativesample();
+class HomeScreen extends StatefulWidget {
+  @override
+  _HomeScreenState createState() => _HomeScreenState();
+}
 
+class _HomeScreenState extends State<HomeScreen> {
+  String? _message;
+
+  /// [IsFlutter] をセットアップ
+  /// [IsFlutterImpl] で具象クラスを実装
   @override
   void initState() {
     super.initState();
-    initPlatformState();
+    IsFlutter.setUp(IsFlutterImpl());
+    _fetchMessage();
   }
 
-  // Platform messages are asynchronous, so we initialize in an async method.
-  Future<void> initPlatformState() async {
-    String platformVersion;
-    // Platform messages may fail, so we use a try/catch PlatformException.
-    // We also handle the message potentially returning null.
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
+  /// [IsSwift]のAPIを呼び出す
+  /// Native側で実装されたAPIをFlutter側で呼び出す
+  Future<void> _fetchMessage() async {
+    final api = IsSwift();
     try {
-      platformVersion =
-          await _nativesamplePlugin.getPlatformVersion() ?? 'Unknown platform version';
-    } on PlatformException {
-      platformVersion = 'Failed to get platform version.';
+      final message = await api.hostApi();
+      setState(() {
+        _message = message.message;
+      });
+    } catch (e) {
+      print("Error: $e");
     }
-
-    // If the widget was removed from the tree while the asynchronous platform
-    // message was in flight, we want to discard the reply rather than calling
-    // setState to update our non-existent appearance.
-    if (!mounted) return;
-
-    setState(() {
-      _platformVersion = platformVersion;
-    });
   }
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          title: const Text('Plugin example app'),
-        ),
-        body: Center(
-          child: Text('Running on: $_platformVersion\n'),
-        ),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Flutter View '),
+      ),
+      body: Center(
+        child: _message == null
+            ? Text("no message")
+            : Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text('Message from SwiftUI: $_message'),
+                ],
+              ),
       ),
     );
+  }
+}
+
+/// Flutter側で実装されたAPIをNative側で呼び出す
+/// Flutter側で具象クラスを実装する必要がある
+/// [MessagesImpl.swift] で呼び出された際に、[flutterApi] が呼び出される
+class IsFlutterImpl extends IsFlutter {
+  @override
+  Future<Message> flutterApi()  {
+    final message = Message();
+    message.message = "こんにちは！ Flutterからのメッセージです。";
+    return Future.value(message);
   }
 }
