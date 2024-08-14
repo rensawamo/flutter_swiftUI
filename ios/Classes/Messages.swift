@@ -130,17 +130,17 @@ class MessagesPigeonCodec: FlutterStandardMessageCodec, @unchecked Sendable {
 /// Swift側で具象クラスを実装する必要がある
 ///
 /// Generated protocol from Pigeon that represents a handler of messages from Flutter.
-protocol IsSwift {
+protocol SwiftApiClass {
   func hostApi(completion: @escaping (Result<Message, Error>) -> Void)
 }
 
 /// Generated setup class from Pigeon to handle messages through the `binaryMessenger`.
-class IsSwiftSetup {
+class SwiftApiClassSetup {
   static var codec: FlutterStandardMessageCodec { MessagesPigeonCodec.shared }
-  /// Sets up an instance of `IsSwift` to handle messages through the `binaryMessenger`.
-  static func setUp(binaryMessenger: FlutterBinaryMessenger, api: IsSwift?, messageChannelSuffix: String = "") {
+  /// Sets up an instance of `SwiftApiClass` to handle messages through the `binaryMessenger`.
+  static func setUp(binaryMessenger: FlutterBinaryMessenger, api: SwiftApiClass?, messageChannelSuffix: String = "") {
     let channelSuffix = messageChannelSuffix.count > 0 ? ".\(messageChannelSuffix)" : ""
-    let hostApiChannel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.nativesample.IsSwift.hostApi\(channelSuffix)", binaryMessenger: binaryMessenger, codec: codec)
+    let hostApiChannel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.nativesample.SwiftApiClass.hostApi\(channelSuffix)", binaryMessenger: binaryMessenger, codec: codec)
     if let api = api {
       hostApiChannel.setMessageHandler { _, reply in
         api.hostApi { result in
@@ -161,10 +161,10 @@ class IsSwiftSetup {
 /// Flutter側で具象クラスを実装する必要がある
 ///
 /// Generated protocol from Pigeon that represents Flutter messages that can be called from Swift.
-protocol IsFlutterProtocol {
+protocol FlutterApiClassProtocol {
   func flutterApi(completion: @escaping (Result<Message, PigeonError>) -> Void)
 }
-class IsFlutter: IsFlutterProtocol {
+class FlutterApiClass: FlutterApiClassProtocol {
   private let binaryMessenger: FlutterBinaryMessenger
   private let messageChannelSuffix: String
   init(binaryMessenger: FlutterBinaryMessenger, messageChannelSuffix: String = "") {
@@ -175,7 +175,7 @@ class IsFlutter: IsFlutterProtocol {
     return MessagesPigeonCodec.shared
   }
   func flutterApi(completion: @escaping (Result<Message, PigeonError>) -> Void) {
-    let channelName: String = "dev.flutter.pigeon.nativesample.IsFlutter.flutterApi\(messageChannelSuffix)"
+    let channelName: String = "dev.flutter.pigeon.nativesample.FlutterApiClass.flutterApi\(messageChannelSuffix)"
     let channel = FlutterBasicMessageChannel(name: channelName, binaryMessenger: binaryMessenger, codec: codec)
     channel.sendMessage(nil) { response in
       guard let listResponse = response as? [Any?] else {

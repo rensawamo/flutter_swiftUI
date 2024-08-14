@@ -72,11 +72,11 @@ class _PigeonCodec extends StandardMessageCodec {
 
 /// FlutterがNativeのAPIを呼び出す
 /// Swift側で具象クラスを実装する必要がある
-class IsSwift {
-  /// Constructor for [IsSwift].  The [binaryMessenger] named argument is
+class SwiftApiClass {
+  /// Constructor for [SwiftApiClass].  The [binaryMessenger] named argument is
   /// available for dependency injection.  If it is left null, the default
   /// BinaryMessenger will be used which routes to the host platform.
-  IsSwift({BinaryMessenger? binaryMessenger, String messageChannelSuffix = ''})
+  SwiftApiClass({BinaryMessenger? binaryMessenger, String messageChannelSuffix = ''})
       : pigeonVar_binaryMessenger = binaryMessenger,
         pigeonVar_messageChannelSuffix = messageChannelSuffix.isNotEmpty ? '.$messageChannelSuffix' : '';
   final BinaryMessenger? pigeonVar_binaryMessenger;
@@ -86,7 +86,7 @@ class IsSwift {
   final String pigeonVar_messageChannelSuffix;
 
   Future<Message> hostApi() async {
-    final String pigeonVar_channelName = 'dev.flutter.pigeon.nativesample.IsSwift.hostApi$pigeonVar_messageChannelSuffix';
+    final String pigeonVar_channelName = 'dev.flutter.pigeon.nativesample.SwiftApiClass.hostApi$pigeonVar_messageChannelSuffix';
     final BasicMessageChannel<Object?> pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -115,16 +115,16 @@ class IsSwift {
 
 /// NativeがFlutterのAPIを呼び出す
 /// Flutter側で具象クラスを実装する必要がある
-abstract class IsFlutter {
+abstract class FlutterApiClass {
   static const MessageCodec<Object?> pigeonChannelCodec = _PigeonCodec();
 
   Future<Message> flutterApi();
 
-  static void setUp(IsFlutter? api, {BinaryMessenger? binaryMessenger, String messageChannelSuffix = '',}) {
+  static void setUp(FlutterApiClass? api, {BinaryMessenger? binaryMessenger, String messageChannelSuffix = '',}) {
     messageChannelSuffix = messageChannelSuffix.isNotEmpty ? '.$messageChannelSuffix' : '';
     {
       final BasicMessageChannel<Object?> pigeonVar_channel = BasicMessageChannel<Object?>(
-          'dev.flutter.pigeon.nativesample.IsFlutter.flutterApi$messageChannelSuffix', pigeonChannelCodec,
+          'dev.flutter.pigeon.nativesample.FlutterApiClass.flutterApi$messageChannelSuffix', pigeonChannelCodec,
           binaryMessenger: binaryMessenger);
       if (api == null) {
         pigeonVar_channel.setMessageHandler(null);

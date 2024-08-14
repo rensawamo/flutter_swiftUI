@@ -16,7 +16,7 @@ class Message {
 /// FlutterがNativeのAPIを呼び出す
 /// Swift側で具象クラスを実装する必要がある
 @HostApi()
-abstract class IsSwift {
+abstract class SwiftApiClass {
   @async  
   Message hostApi();
 }
@@ -24,7 +24,7 @@ abstract class IsSwift {
 /// NativeがFlutterのAPIを呼び出す
 /// Flutter側で具象クラスを実装する必要がある
 @FlutterApi()
-abstract class IsFlutter {
+abstract class FlutterApiClass {
   @async
   Message flutterApi();
 }

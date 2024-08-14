@@ -22,12 +22,12 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   String? _message;
 
-  /// [IsFlutter] をセットアップ
-  /// [IsFlutterImpl] で具象クラスを実装
+  /// [FlutterApiClass] をセットアップ
+  /// [FlutterApiClassImpl] で具象クラスを実装
   @override
   void initState() {
     super.initState();
-    IsFlutter.setUp(IsFlutterImpl());
+    FlutterApiClass.setUp(FlutterApiClassImpl());
     _fetchMessage();
   }
 
@@ -36,10 +36,10 @@ class _HomeScreenState extends State<HomeScreen> {
     super.dispose();
   }
 
-  /// [IsSwift]のAPIを呼び出す
+  /// [SwiftApiClass]のAPIを呼び出す
   /// Native側で実装されたAPIをFlutter側で呼び出す
   Future<void> _fetchMessage() async {
-    final api = IsSwift();
+    final api = SwiftApiClass();
     try {
       final message = await api.hostApi();
       setState(() {
@@ -73,7 +73,7 @@ class _HomeScreenState extends State<HomeScreen> {
 /// Flutter側で実装されたAPIをNative側で呼び出す
 /// Flutter側で具象クラスを実装する必要がある
 /// [MessagesImpl.swift] で呼び出された際に、[flutterApi] が呼び出される
-class IsFlutterImpl implements IsFlutter {
+class FlutterApiClassImpl implements FlutterApiClass {
   @override
   Future<Message> flutterApi()  {
     final message = Message();

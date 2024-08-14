@@ -12,7 +12,7 @@ public class NativesamplePlugin: NSObject, FlutterPlugin {
         let messenger = registrar.messenger()
         
         if #available(iOS 13.0, *) {
-            IsSwiftSetup.setUp(binaryMessenger: messenger, api: MessagesImpl())
+            SwiftApiClassSetup.setUp(binaryMessenger: messenger, api: MessagesImpl())
         } else {
             print("iOS 13.0未満のデバイスではMessagesImplはサポートされていません。")
         }

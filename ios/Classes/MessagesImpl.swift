@@ -42,12 +42,12 @@ struct SwiftUIView: View {
 }
 
 @available(iOS 13.0, *)
-class MessagesImpl: NSObject, IsSwift {
+class MessagesImpl: NSObject, SwiftApiClass {
     
     func hostApi(completion: @escaping (Result<Message, Error>) -> Void) {
         // Flutterからメッセージを取得
         if let flutterViewController = UIApplication.shared.windows.first?.rootViewController as? FlutterViewController {
-            let flutterApi = IsFlutter(binaryMessenger: flutterViewController.binaryMessenger)
+            let flutterApi = FlutterApiClass(binaryMessenger: flutterViewController.binaryMessenger)
             
             flutterApi.flutterApi { result in
                 switch result {
