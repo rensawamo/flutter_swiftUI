@@ -1,12 +1,10 @@
-# タイプセーフな native連携 
-
 ![](https://storage.googleapis.com/zenn-user-upload/3d5a33c7ef81-20240813.gif)
 
-## pegeon生成コマンド
+## pegeon command
 ```sh
 $ make gen
 ```
 
-## zenn 記事はこちら
+## tech article
 
 ⭐️ https://zenn.dev/renren0112/articles/45539a09c724d0
